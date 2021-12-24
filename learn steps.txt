@@ -1,0 +1,114 @@
+Steps to add multi auth, follow MultiAuthSteps
+*\app\Providers\RouteServiceProvider.php  add constant admin
+* php artisan make:controller Auth\AdminLoginController
+* create directory admin/auth in resources/views w created login.blade.php file
+* change route name admin.login in admin/auth/login.blade.php
+* php artisan make:request Auth/LoginAdminRequest  and put it in AdminLoginController::store function
+* take a copy from Http/Requests/Auth/LoginRequest into LoginAdminRequest
+* change in LoginAdminRequest line 48 Auth::guard('admin')->
+* chane in config\auth.php line 38 and add new guard and in line 66 add new provider ely rbteno bel guard 
+  then create new Model admin -> php artisan make:model Admin -m
+* make copy model user to new model admin
+* then make copy from user migration to admin and make table with admin
+* update routes/auth with 
+* php artisan migrate 3shan n3mel migrate le table el migrate
+* in http\middleware\RedirectIfAuthenticated.php we added our conditions
+* copy view dashboard into resources/views/admin 
+* fel web.php we created new route to redirect the admin after admin authentication
+* Edit in navigation.blade.php to make logout for admin and user
+
+
+----------------------
+multi level categories
+* php artisan make:model Category -mcr
+* php artisan make:model Product -mcr
+-------------
+E-commerce website
+* 1- update userTable migration file and added extra fields
+* 2- create country
+    * php artisan make:model Country -mcr
+    * added fields in migration file
+    * php artisan make:request Admin/StoreCountry
+    * updated model with guarded=[]
+    * made relation in model
+* 3- create City
+    * php artisan make:model City -mcr
+    * added fields in migration file
+    * php artisan make:request Admin/StoreCity
+    * updated model with guarded=[]
+    * made relation in model
+* 4- create website info
+    * php artisan make:model WebsiteInfo -mcr
+* 5- create Admin
+    * php artisan make:model Admin -mcr
+    * added fields in migration file
+    * php artisan make:request Admin/StoreCountry
+    * updated model with guarded=[]
+    * made relation in model
+-----------
+Setup theme
+1- copy folder assets Dashboard\public\assets to project\public
+2- copy Dashboard\resources\views to project\resources\views\admin
+3- copy routes
+4- copy admin controller to project controller
+---------
+mcmara translation
+1- followed this link
+*3mlt el commands
+* 3mlt directories inside resources/lang w 3mlt file esmo translation we gwa l blade file 7atet kda {{ __('translations.Countries') }}
+https://github.com/mcamara/laravel-localization
+  
+translation package
+https://github.com/Laravel-Lang/lang
+
+---------
+country seeder
+https://github.com/fabiofdsantos/laracountries
+3shan atrgm el arabic 
+1- open in vs code
+2- select name_en then dost D 3ala tol l7ad 3mlhom select
+3- mshett 2 arrow ymen
+4- w2ft 3nd awel ' then 3mlt Shift+fn+End gabhom kolhom mn 2odam le awrra
+5- google translate w 3mlt paset lama 3mlt select 3ala kol '' ely fe name_ar
+==========
+Tare2et el repository design pattern
+app/interfaces/admin
+create Interface
+
+app/repositories/admin
+create Repository  hy implement el interface
+
+controller
+inject el interface fel __construct w use functions implemented in interface
+
+create provider
+php artisan make:pro RepositoryServiceProvider
+hnla2et et3mlo create fel app/providers hnrbot el interface bel repository fel repositoryfel regiter function
+
+config/app.php hadef el provider
+
+
+
+
+------------
+need to know softdelete
+
+what is garbed ely hea badl enum
+$table->foreignId('country_id')->constrained(); //didn't work
+----------------------
+
+
+need to know what is
+* service provider
+* middleware
+* guard
+* app/http/Kernel
+
+-na2es validation
+-na2es forgot password
+-register  https://laracasts.com/discuss/channels/laravel/laravel-8-multi-auth-with-two-diffirent-registration-form
+-m7taga a3raf eh hea el validation ely mfrod tt7at
+-lw 3ndy functions zyada fel controller , a7otaha fel interface wala fel controller zy callback ajax
+-how to make helper class to render global function like getCitiesByCountries
+-- setImageAttribute msh radia tshta8l fel admin model
+https://laracasts.com/discuss/channels/laravel/how-to-create-single-mutator-for-multple-fields-using-laravel?page=1&replyId=580025
