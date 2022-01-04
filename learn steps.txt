@@ -1,4 +1,5 @@
 Steps to add multi auth, follow MultiAuthSteps
+* el routes bta3tna bn7otaha fe Route/auth.php
 *\app\Providers\RouteServiceProvider.php  add constant admin
 * php artisan make:controller Auth\AdminLoginController
 * create directory admin/auth in resources/views w created login.blade.php file
@@ -6,22 +7,30 @@ Steps to add multi auth, follow MultiAuthSteps
 * php artisan make:request Auth/LoginAdminRequest  and put it in AdminLoginController::store function
 * take a copy from Http/Requests/Auth/LoginRequest into LoginAdminRequest
 * change in LoginAdminRequest line 48 Auth::guard('admin')->
-* chane in config\auth.php line 38 and add new guard and in line 66 add new provider ely rbteno bel guard 
+* chage in config\auth.php line 38 and add new guard and in line 66 add new provider ely rbteno bel guard
   then create new Model admin -> php artisan make:model Admin -m
 * make copy model user to new model admin
 * then make copy from user migration to admin and make table with admin
-* update routes/auth with 
+* update routes/auth with
 * php artisan migrate 3shan n3mel migrate le table el migrate
 * in http\middleware\RedirectIfAuthenticated.php we added our conditions
-* copy view dashboard into resources/views/admin 
+* copy view dashboard into resources/views/admin
 * fel web.php we created new route to redirect the admin after admin authentication
 * Edit in navigation.blade.php to make logout for admin and user
-
+* kan feh issue en lama b3mel invalid login fel admin kan bywadeny 3ala l login l2naha m3mlaha handel fe file
+app\Http\Middleware\Authenticate.php eno y3mel redirect 3ala route l login
+fa 3mlna fix fel LoginAdminRequest fe function store 3mlna condition
 
 ----------------------
 multi level categories
 * php artisan make:model Category -mcr
 * php artisan make:model Product -mcr
+* php artisan make:model SubCategory -mcr
+* php artisan make:model SubSubCategory -mcr
+* php artisan make:seeder ProductsSeeder
+* php artisan make:seeder CategoriesSeeder
+* php artisan make:seeder SubCategoriesSeeder
+* php artisan make:seeder SubSubCategoriesSeeder
 -------------
 E-commerce website
 * 1- update userTable migration file and added extra fields
@@ -57,14 +66,14 @@ mcmara translation
 *3mlt el commands
 * 3mlt directories inside resources/lang w 3mlt file esmo translation we gwa l blade file 7atet kda {{ __('translations.Countries') }}
 https://github.com/mcamara/laravel-localization
-  
+
 translation package
 https://github.com/Laravel-Lang/lang
 
 ---------
 country seeder
 https://github.com/fabiofdsantos/laracountries
-3shan atrgm el arabic 
+3shan atrgm el arabic
 1- open in vs code
 2- select name_en then dost D 3ala tol l7ad 3mlhom select
 3- mshett 2 arrow ymen
@@ -87,8 +96,41 @@ hnla2et et3mlo create fel app/providers hnrbot el interface bel repository fel r
 
 config/app.php hadef el provider
 
+=======================
+yajra Datatable
+https://yajrabox.com/docs/laravel-datatables/master/installation
+1- npm install datatables.net-buttons-bs4
+2- composer require yajra/laravel-datatables-oracle:"~9.0"
+3- composer require yajra/laravel-datatables:^1.5
+php artisan vendor:publish --tag=datatables
+
+4- php artisan datatables:make countries
+5- in countryController in index function add parameter countriesDataTable w badeeh lel repo
+w fel blade bn7ot
+      {!! $dataTable->table(['class' => 'table table-boarded m-2',], true) !!}
+ w t7t fel scripts
+
+    {!! $dataTable->scripts() !!}
+6- bnzabt asamy el columns fe getColumns() we kman el func de html()
+7- lw feh coulmn hn3melo override bn3mel template bnfs esm el column zy el active w bn7ot gwah el coulmn
+we hn7ot function dataTable() ->addColumn('action', 'countries.action')
+                                          ->rawColumns([
+                                              'active'
+                                              ]);
+3shan nrbothom
+w bn7ot el script bta3 el active fel blade nfso 3shan yshta8l 8er kda msh hyshta8l
+https://github.com/yajra/laravel-datatables/issues/1141#issuecomment-300397981
 
 
+if you need to load relationship, follow the below last answer and i applied it in cities
+https://stackoverflow.com/questions/59509479/how-to-editcolumn-on-a-relationship-column-in-laravel-yajra-datatables
+
+lama a7eb a3mel filter lel yajra table based 3ala parameter gay mn el url, i applied it in sub category and sub sub category
+https://yajrabox.com/docs/laravel-datatables/master/buttons-with
+
+lw 7abet ab3at parameters to blade file
+https://stackoverflow.com/questions/55695818/is-it-possible-to-send-some-variable-to-the-blade-view-in-an-addcolumn
+https://yajrabox.com/docs/laravel-datatables/master/add-column
 
 ------------
 need to know softdelete
@@ -103,6 +145,7 @@ need to know what is
 * middleware
 * guard
 * app/http/Kernel
+* middleware
 
 -na2es validation
 -na2es forgot password
@@ -112,3 +155,7 @@ need to know what is
 -how to make helper class to render global function like getCitiesByCountries
 -- setImageAttribute msh radia tshta8l fel admin model
 https://laracasts.com/discuss/channels/laravel/how-to-create-single-mutator-for-multple-fields-using-laravel?page=1&replyId=580025
+
+
+--- here middleware ?? web wala l mfrod n3mel wa7da gdeda
+C:\wamp64\www\multi_auth\app\Providers\RouteServiceProvider.php

@@ -3,7 +3,7 @@ namespace App\Interfaces\Admin;
 
 interface CountryInterface
 {
-    public function index();
+    public function index($dataTable);
 
     public function create();
 

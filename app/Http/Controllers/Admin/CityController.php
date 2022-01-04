@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Interfaces\Admin\CityInterface;
+use App\DataTables\citiesDataTable;
 
 class CityController extends Controller
 {
@@ -23,9 +24,9 @@ class CityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(citiesDataTable $dataTable)
     {
-        return $this->city->index();
+        return $this->city->index($dataTable);
     }
 
     /**

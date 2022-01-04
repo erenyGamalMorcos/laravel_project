@@ -11,11 +11,10 @@ use App\Helpers\ChangeActiveStatus;
 class CityRepository implements CityInterface
 {
 
-    public function index()
+    public function index($dataTable)
     {
-        $cities = City::all();
         $countries = Country::where('active', 1)->get();
-        return view('admin.cities.cities',compact('cities', 'countries'));
+        return $dataTable->render('admin.cities.cities',compact('countries'));
     }
 
     public function create()

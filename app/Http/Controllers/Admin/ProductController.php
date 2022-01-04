@@ -2,20 +2,30 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\StoreProduct;
+use App\Interfaces\Admin\ProductInterface;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\DataTables\productsDataTable;
 
 class ProductController extends Controller
 {
+
+    private $product;
+
+    public function __construct(ProductInterface $product)
+    {
+        $this->product = $product;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(productsDataTable $dataTable)
     {
-        //
+        return $this->product->index($dataTable);
     }
 
     /**
@@ -25,7 +35,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return $this->product->create();
     }
 
     /**
@@ -34,9 +44,9 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProduct $request)
     {
-        //
+       return $this->product->store($request->all());
     }
 
     /**
@@ -45,9 +55,9 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        //
+        return $this->product->show($id);
     }
 
     /**
@@ -56,9 +66,9 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
-        //
+        return $this->product->edit($id);
     }
 
     /**
@@ -68,9 +78,11 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+
+    public function update(StoreProduct $request)
     {
-        //
+        $productInputs = $request->except(['_token','_method']);
+        return $this->product->update($productInputs);
     }
 
     /**
@@ -79,8 +91,8 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        return $this->product->destroy($id);
     }
 }

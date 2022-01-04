@@ -86,4 +86,11 @@ return [
     "Please Add Country Name" => "Please Add Country Name",
     "Please City Name" => "Please City Name",
 
+    /*** categories ***/
+    "Please choose Category" => "Please choose Category",
+    "Please choose Sub Category" => "Please choose Sub Category",
+    "Categories" => 'Categories',
+    "Sub Categories" => 'Sub Categories',
+    "Sub Sub Categories" => 'Sub Sub Categories',
+
 ];

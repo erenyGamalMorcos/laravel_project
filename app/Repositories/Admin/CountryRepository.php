@@ -9,26 +9,11 @@ use App\Models\Country;
 class CountryRepository implements CountryInterface
 {
 
-    public function index()
+    public function index($dataTable)
     {
-        $countries = Country::all();
-        return view('admin.countries.countries',compact('countries'));
-//        if ($request->ajax()) {
-//            $countries = Country::select('*');
-//            return Datatables::of($countries)
-//                ->addIndexColumn()
-//                ->addColumn('action', function($row){
-//
-//                    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-//
-//                    return $btn;
-//                })
-//                ->rawColumns(['action'])
-//                ->make(true);
-//        }
-//
-//        return view('admin.countries.countries');
-
+        return $dataTable->render('admin.countries.countries');
+//        $countries = Country::all();
+//        return view('admin.countries.countries',compact('countries'));
     }
 
     public function create()

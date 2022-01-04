@@ -5,17 +5,27 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Interfaces\Admin\CategoryInterface;
+use App\Http\Requests\Admin\StoreCategory;
+use Illuminate\Support\Arr;
+use App\DataTables\categoriesDataTable;
 
 class CategoryController extends Controller
 {
+    private $category;
+
+    public function __construct(CategoryInterface $category)
+    {
+        $this->category = $category;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(categoriesDataTable $dataTable)
     {
-        //
+        return $this->category->index($dataTable);
     }
 
     /**
@@ -25,7 +35,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return $this->category->create();
     }
 
     /**
@@ -34,9 +44,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCategory $request)
     {
-        //
+        return $this->category->store($request->all());
     }
 
     /**
@@ -45,9 +55,9 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        //
+        return $this->category->show($id);
     }
 
     /**
@@ -56,9 +66,9 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        //
+        return $this->category->edit($id);
     }
 
     /**
@@ -68,9 +78,10 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(StoreCategory $request)
     {
-        //
+        $categoryInputs = $request->except(['_token','_method']);
+        return $this->category->update($categoryInputs);
     }
 
     /**
@@ -79,8 +90,8 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        return $this->category->destroy($id);
     }
 }

@@ -7,6 +7,7 @@ use App\Interfaces\Admin\CountryInterface;
 use App\Models\Country;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\DataTables\countriesDataTable;
 
 class CountryController extends Controller
 {
@@ -21,9 +22,9 @@ class CountryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(countriesDataTable $dataTable)
     {
-        return $this->country->index();
+        return $this->country->index($dataTable);
     }
 
     /**

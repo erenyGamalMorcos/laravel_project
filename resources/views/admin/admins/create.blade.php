@@ -106,7 +106,7 @@
                                 <div class="form-group">
                                     <label> {{ __('translations.Countries') }} </label>
                                     <div>
-                                        <select name="country_id" id="country_id" class="form-control select2 select2-hidden-accessible" required>
+                                        <select name="country_id" id="country_id" class="form-control select2" required>
                                             <option value="" selected disabled>{{ __('translations.Select Country') }}</option>
                                             @foreach ($countries as $country)
                                                 <option value="{{ $country->id }}" >{{ (app()->getLocale() == 'en') ? $country->name_en : $country->name_ar }}</option>
@@ -122,7 +122,7 @@
                                 <div class="form-group">
                                     <label> {{ __('translations.Cities') }} </label>
                                     <div>
-                                        <select name="city_id" id="city_id" class="form-control select2 select2-hidden-accessible" required>
+                                        <select name="city_id" id="city_id" class="form-control select2" required>
                                             <option value="" selected disabled>{{ __('translations.Select City') }}</option>
 {{--                                            @foreach ($cities as $city)--}}
 {{--                                                <option value="{{ $city->id }}">{{ (app()->getLocale() == 'en') ? $city->name_en : $city->name_ar }}</option>--}}
@@ -190,6 +190,7 @@
                     data: {country_id:country_id, _token:_token},
                     success: function(data) {
                         if($.isEmptyObject(data.error)){
+                            $("#city_id").empty();
                             $.each(data.cities, function (key, value) {
                                 $("#city_id").append('<option value="' + key + '">' + value + '</option>');
                             });

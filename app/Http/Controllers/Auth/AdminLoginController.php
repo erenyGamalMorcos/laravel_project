@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginAdminRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class AdminLoginController extends Controller
 {
@@ -28,11 +29,15 @@ class AdminLoginController extends Controller
      */
     public function store(LoginAdminRequest $request)
     {
-        $request->authenticate();
+        if(Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password, 'active' => 1])){
+            $request->authenticate();
 
-        $request->session()->regenerate();
+            $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::ADMIN);
+            return redirect()->intended(RouteServiceProvider::ADMIN);
+        }else{
+            return Redirect::back()->withErrors(__('translations.These credentials do not match our records'));
+        }
     }
 
     /**

@@ -85,5 +85,13 @@ return [
     "Please Add Name" => 'الرجاء اضافه اسم المستخدم',
     "Please Add Email" => "الرجاء إضافة بريد إلكتروني",
     "Please Add Country Name" => "الرجاء إضافة اسم الدولة",
-     "Please City Name" => "من فضلك اسم المدينة",
+    "Please City Name" => "من فضلك اسم المدينة",
+
+    /*** categories ***/
+    "Please choose Category" => "من فضلك اختار الفئه",
+    "Please choose Sub Category" => "من فضلك اختار فرع من الفئه",
+    "Categories" => 'فئات',
+    "Sub Categories" => 'افرع الفئات',
+    "Sub Sub Categories" => 'افرع افرع الفئات',
+
 ];

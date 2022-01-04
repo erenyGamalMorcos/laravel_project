@@ -3,15 +3,7 @@
     {{ __('translations.Cities')  }}
 @stop
 @section('css')
-    <!-- Internal Data table css -->
-    <link href="{{ URL::asset('assets/plugins/datatable/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
-    <link href="{{ URL::asset('assets/plugins/datatable/css/buttons.bootstrap4.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.bootstrap4.min.css') }}" rel="stylesheet" />
-    <link href="{{ URL::asset('assets/plugins/datatable/css/jquery.dataTables.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('assets/plugins/datatable/css/responsive.dataTables.min.css') }}" rel="stylesheet">
-    <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
 @endsection
-
 @section('page-header')
     <!-- breadcrumb -->
     <div class="breadcrumb-header justify-content-between">
@@ -62,49 +54,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="example1" class="table key-buttons text-md-nowrap">
-                            <thead>
-                            <tr>
-                                <th class="border-bottom-0">#</th>
-                                <th class="border-bottom-0">{{ __('translations.Country Name') }}</th>
-                                <th class="border-bottom-0">{{ __('translations.City Name English') }}</th>
-                                <th class="border-bottom-0">{{ __('translations.City Name Arabic') }}</th>
-                                <th class="border-bottom-0">{{ __('translations.Active') }}</th>
-                                <th class="border-bottom-0">{{ __('translations.Actions') }}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            $i = 0;
-                            ?>
-                            @foreach($cities as $city)
-                                <?php $i++; ?>
-                                <tr>
-                                    <td>{{ $i }}</td>
-                                    <td>{{ (app()->getLocale() == 'en') ? $city->country->name_en : $city->country->name_ar }}</td>
-                                    <td>{{ $city->name_en  }}</td>
-                                    <td>{{ $city->name_ar  }}</td>
-                                    <td>
-                                        <div class="main-toggle main-toggle-success {{ ($city->active) ? 'on' : '' }}" data-id="{{$city->id}}" id="changeStatus{{ $city->id}}">
-                                            <span></span>
-                                            <input type="hidden" id="city_status{{ $city->id}}" value="{{ $city->active}}">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
-                                               data-id="{{ $city->id }}" data-city_name_en="{{ $city->name_en }}" data-city_name_ar="{{ $city->name_ar }}"
-                                               data-country_id="{{ $city->country->id }}" data-active="{{ $city->active }}" data-toggle="modal"
-                                               href="#exampleModal2" title="Edit"><i class="las la-pen"></i></a>
-
-                                        <a class="modal-effect btn btn-sm btn-danger" data-effect="effect-scale"
-                                               data-id="{{ $city->id }}" data-name_en="{{  $city->name_en }}"
-                                               data-toggle="modal" href="#modaldemo9" title="{{ __('translations.Delete') }}"><i class="las la-trash"></i></a>
-                                    </td>
-                                </tr>
-                            @endforeach
-
-                            </tbody>
-                        </table>
+                        {!! $dataTable->table(['class' => 'table table-boarded m-2',], true) !!}
                     </div>
                 </div>
             </div>
@@ -258,28 +208,6 @@
 @endsection
 @section('js')
     <!-- Internal Data tables -->
-    <script src="{{ URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/jquery.dataTables.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/jszip.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/pdfmake.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/vfs_fonts.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.html5.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.print.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js') }}"></script>
-    <!--Internal  Datatable js -->
-    <script src="{{ URL::asset('assets/js/table-data.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/modal.js') }}"></script>
-    <!-- Internal Modal js-->
-    <script src="{{URL::asset('assets/js/modal.js')}}"></script>
-
     <!-- update -->
     <script>
         $('#exampleModal2').on('show.bs.modal', function(event) {
@@ -312,47 +240,7 @@
             modal.find('.modal-body #name_en').val(name_en);
         });
 
-
-        $(document).ready(function() {
-            $(".main-toggle").click(function(e){
-                e.preventDefault();
-
-                let id = $(this).data("id");
-                var active = $("#city_status"+id).val();
-                var _token = $("input[name='_token']").val();
-                $.ajax({
-                    url: "{{ route('city.changeStatus') }}",
-                    type:'POST',
-                    data: {active:active, id:id, _token:_token},
-                    success: function(data) {
-                        if($.isEmptyObject(data.error)){
-                            if(data.active){
-                                $("#changeStatus"+id).addClass('on');
-                                $("#city_status"+id).val(1);
-                            }else{
-                                $("#changeStatus"+id).removeClass('on');
-                                $("#city_status"+id).val(0);
-                            }
-                            printSuccessMsg(data.success);
-                        }else{
-                            printErrorMsg(data.error);
-                        }
-                    }
-                });
-
-            });
-            function printErrorMsg (msg) {
-                $(".print-error-msg").find("ul").html('');
-                $(".print-error-msg").css('display','block');
-                $.each( msg, function( key, value ) {
-                    $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
-                });
-            }
-            function printSuccessMsg (msg) {
-                $(".print-success-msg").find("ul").html('');
-                $(".print-success-msg").css('display','block');
-                $(".print-success-msg").find("ul").append('<li>'+msg+'</li>');
-            }
-        });
     </script>
+
+    {!! $dataTable->scripts() !!}
 @endsection
