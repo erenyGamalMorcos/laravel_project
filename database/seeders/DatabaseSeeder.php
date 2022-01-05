@@ -23,6 +23,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CitiesSeeder::class);
         $this->call(AdminsSeeder::class);
         $this->call(WebsiteInfosSeeder::class);
+        $this->call(CategoriesSeeder::class);
+        $this->call(SubCategoriesSeeder::class);
+        $this->call(SubSubCategoriesSeeder::class);
+        $this->call(ProductsSeeder::class);
         // \App\Models\User::factory(10)->create();
 
     }
